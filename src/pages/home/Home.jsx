@@ -4,11 +4,15 @@ import PersonCard from "../../components/PersonCard";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPeople } from "../../api/FetchPeople";
 import PageHandleButton from "../../components/PageHandleButton";
+import { fetchSearchQuery } from "../../api/FetchSearchQuery";
 
 function Home() {
   const [searchParm, setSearchParm] = useState(null);
   let [currentPage, setCurrentPage] = useState(1);
   const results = useQuery(["peoples", currentPage], fetchPeople);
+
+  //need to add search feature
+  const searchedList = useQuery(["searchedList", searchParm], fetchSearchQuery);
 
   const pagedata = results?.data?.results ?? [];
   const isFirst = results?.data?.previous ? false : true;
@@ -59,7 +63,7 @@ function Home() {
           <div className="flex w-full flex-col">
             <div className="flex justify-end pr-4">
               <PageHandleButton
-                currentPage={1}
+                currentPage={currentPage}
                 isFirst={isFirst}
                 isLast={isLast}
                 onNextClick={handleNextClick}
@@ -81,6 +85,7 @@ function Home() {
                         hair_color={item.hair_color}
                         eye_color={item.eye_color}
                         skin_color={item.skin_color}
+                        species={item.species}
                         noOfStarship={item.starships.length}
                         noOfVehicles={item.vehicles.length}
                       />
