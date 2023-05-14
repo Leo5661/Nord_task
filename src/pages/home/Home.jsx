@@ -1,13 +1,38 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Nav from "../../components/Nav";
 import PersonCard from "../../components/PersonCard";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPeople } from "../../api/FetchPeople";
+import PageHandleButton from "../../components/PageHandleButton";
 
 function Home() {
   const [searchParm, setSearchParm] = useState(null);
+  let [currentPage, setCurrentPage] = useState(1);
+  const results = useQuery(["peoples", currentPage], fetchPeople);
+
+  const pagedata = results?.data?.results ?? [];
+  const isFirst = results?.data?.previous ? false : true;
+  const isLast = results?.data?.next ? false : true;
+
+  const noPeopleFound = (
+    <div className="flex h-full w-full items-center justify-center">
+      No people found on archive.
+    </div>
+  );
 
   const handleOnSearchParmChange = (e) => {
     e.preventDefault();
     setSearchParm(e.target.value);
+  };
+
+  const handleNextClick = () => {
+    ++currentPage;
+    setCurrentPage(currentPage);
+  };
+
+  const handlePreviousClick = () => {
+    --currentPage;
+    setCurrentPage(currentPage);
   };
 
   return (
@@ -25,13 +50,44 @@ function Home() {
           />
         </div>
         <div className="flex h-screen w-full items-start justify-start gap-4 overflow-y-auto overflow-x-hidden">
-          <div className="flex h-full w-10 items-center justify-around">
-            <div className="w-5	rotate-[270deg] transform-gpu text-justify text-sm font-normal tracking-wider text-green-500 antialiased">
-              Loading...
+          <div className="relative flex h-full w-10 items-center justify-around">
+            <div className="absolute top-[100px] w-56 rotate-[-90deg] transform-gpu	overflow-hidden text-justify align-baseline text-sm font-normal tracking-wider text-green-500 antialiased">
+              {results.isLoading ? "Loading..." : "Results of all People's"}
             </div>
-            <div className="h-full w-1 bg-green-500"></div>
+            <div className="absolute right-0 h-full w-1 bg-green-500"></div>
           </div>
-          <PersonCard />
+          <div className="flex w-full flex-col">
+            <div className="flex justify-end pr-4">
+              <PageHandleButton
+                currentPage={1}
+                isFirst={isFirst}
+                isLast={isLast}
+                onNextClick={handleNextClick}
+                onPreviousClick={handlePreviousClick}
+              />
+            </div>
+            <div className="flex flex-wrap items-start justify-center">
+              {results.isLoading || pagedata.length == 0
+                ? noPeopleFound
+                : pagedata.map((item) => {
+                    return (
+                      <PersonCard
+                        key={item.name}
+                        name={item.name}
+                        dob={item.birth_year}
+                        gender={item.gender}
+                        height={item.height}
+                        mass={item.mass}
+                        hair_color={item.hair_color}
+                        eye_color={item.eye_color}
+                        skin_color={item.skin_color}
+                        noOfStarship={item.starships.length}
+                        noOfVehicles={item.vehicles.length}
+                      />
+                    );
+                  })}
+            </div>
+          </div>
         </div>
       </div>
     </div>
