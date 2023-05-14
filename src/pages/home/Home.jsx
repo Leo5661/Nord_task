@@ -78,7 +78,7 @@ function Home() {
       <div className="w-100% flex flex-col items-start justify-start gap-4 overflow-hidden overflow-y-auto overflow-x-hidden bg-slate-700">
         <div className="mt-2 flex w-full justify-center">
           <input
-            className="focus:shadow-outline w-3/5 appearance-none rounded-lg border-b border-t border-b-rose-400 border-t-blue-700 bg-transparent p-2 text-base text-green-400 placeholder-green-500 shadow-lg focus:outline-none"
+            className="focus:shadow-outline w-3/5 appearance-none rounded-lg border-b border-t border-b-rose-400 border-t-blue-700 bg-transparent px-4 py-2 text-base text-green-400 placeholder-green-500 shadow-lg focus:outline-none"
             type="text"
             name="name"
             value={searchParam}
@@ -88,10 +88,10 @@ function Home() {
         </div>
         <div className="flex h-screen w-full items-start justify-start gap-4 overflow-y-auto overflow-x-hidden">
           <div className="relative flex h-full w-10 items-center justify-around">
-            <div className="absolute top-[100px] w-56 rotate-[-90deg] transform-gpu	overflow-hidden text-justify align-baseline text-sm font-normal tracking-wider text-green-500 antialiased">
+            <div className="absolute top-[150px] w-56 rotate-[-90deg] transform-gpu	overflow-hidden text-justify align-baseline text-sm font-normal tracking-wider text-green-500 antialiased">
               {peopleList.isLoading || searchedList.isLoading
                 ? "Loading..."
-                : `Results of ${searchParam} People's`}
+                : `Results of ${searchParam} People`}
             </div>
             <div className="absolute right-0 h-full w-1 bg-green-500"></div>
           </div>
