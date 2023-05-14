@@ -5,22 +5,55 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchPeople } from "../../api/FetchPeople";
 import PageHandleButton from "../../components/PageHandleButton";
 import { fetchSearchQuery } from "../../api/FetchSearchQuery";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAndroid } from "@fortawesome/free-brands-svg-icons";
 
 function Home() {
-  const [searchParm, setSearchParm] = useState(null);
+  const [searchParam, setSearchParm] = useState("");
   let [currentPage, setCurrentPage] = useState(1);
-  const results = useQuery(["peoples", currentPage], fetchPeople);
+  const peopleList = useQuery(["peoples", currentPage], fetchPeople);
+  const searchedList = useQuery(
+    ["searchedList", searchParam],
+    fetchSearchQuery
+  );
 
-  //need to add search feature
-  const searchedList = useQuery(["searchedList", searchParm], fetchSearchQuery);
+  let pagedata = [];
+  let isFirst;
+  let isLast;
 
-  const pagedata = results?.data?.results ?? [];
-  const isFirst = results?.data?.previous ? false : true;
-  const isLast = results?.data?.next ? false : true;
+  const count = searchedList?.data?.count ?? 0;
+
+  if (count == 0) {
+    pagedata = peopleList?.data?.results ?? [];
+    isFirst = peopleList?.data?.previous ? false : true;
+    isLast = peopleList?.data?.next ? false : true;
+  } else {
+    pagedata = searchedList?.data?.results ?? [];
+    isFirst = searchedList?.data?.previous ? false : true;
+    isLast = searchedList?.data?.next ? false : true;
+  }
 
   const noPeopleFound = (
-    <div className="flex h-full w-full items-center justify-center">
-      No people found on archive.
+    <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+      <FontAwesomeIcon
+        className="h-10 w-12"
+        icon={faAndroid}
+        bounce
+        style={{ color: "#d35555" }}
+      />
+      <div className="text-gray-400">No match found try somthing else.</div>
+    </div>
+  );
+
+  const loadingData = (
+    <div className="flex h-full w-full flex-col items-center justify-center gap-4">
+      <FontAwesomeIcon
+        className="h-12 w-12"
+        icon={faAndroid}
+        fade
+        style={{ color: "#519a5d" }}
+      />
+      <div className="text-gray-400">Finding your request in Archive.</div>
     </div>
   );
 
@@ -48,7 +81,7 @@ function Home() {
             className="focus:shadow-outline w-3/5 appearance-none rounded-lg border-b border-t border-b-rose-400 border-t-blue-700 bg-transparent p-2 text-base text-green-400 placeholder-green-500 shadow-lg focus:outline-none"
             type="text"
             name="name"
-            value={searchParm}
+            value={searchParam}
             placeholder="Search by name"
             onChange={(e) => handleOnSearchParmChange(e)}
           />
@@ -56,7 +89,9 @@ function Home() {
         <div className="flex h-screen w-full items-start justify-start gap-4 overflow-y-auto overflow-x-hidden">
           <div className="relative flex h-full w-10 items-center justify-around">
             <div className="absolute top-[100px] w-56 rotate-[-90deg] transform-gpu	overflow-hidden text-justify align-baseline text-sm font-normal tracking-wider text-green-500 antialiased">
-              {results.isLoading ? "Loading..." : "Results of all People's"}
+              {peopleList.isLoading || searchedList.isLoading
+                ? "Loading..."
+                : `Results of ${searchParam} People's`}
             </div>
             <div className="absolute right-0 h-full w-1 bg-green-500"></div>
           </div>
@@ -71,7 +106,9 @@ function Home() {
               />
             </div>
             <div className="flex flex-wrap items-start justify-center">
-              {results.isLoading || pagedata.length == 0
+              {peopleList.isLoading
+                ? loadingData
+                : pagedata.length == 0
                 ? noPeopleFound
                 : pagedata.map((item) => {
                     return (
