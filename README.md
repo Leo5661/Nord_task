@@ -1,5 +1,9 @@
-# Nord_task
-* To see demo visit https://nord-task.vercel.app/
+# Starwar Archive
+
+* To see demo visit [Starwar Archive](https://starwar-archive.vercel.app/)
+
+![Home](https://github.com/Leo5661/Starwar-Archive/blob/main/assets/home.jpg)
+
 ## Local setup
 Run these commands in the project dir.
 ```
