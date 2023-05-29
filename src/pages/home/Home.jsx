@@ -105,7 +105,7 @@ function Home() {
                 onPreviousClick={handlePreviousClick}
               />
             </div>
-            <div className="flex flex-wrap items-start justify-center">
+            <div className="flex flex-wrap items-start justify-center gap-10">
               {peopleList.isLoading
                 ? loadingData
                 : pagedata.length == 0
