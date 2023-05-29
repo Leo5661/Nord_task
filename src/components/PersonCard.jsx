@@ -25,7 +25,7 @@ function PersonCard({
   }
 
   return (
-    <div className="m-4 flex h-[400px] w-[300px] flex-col items-start justify-start gap-2 rounded border-y border-lime-900 p-4 shadow">
+    <div className="flex h-[400px] w-[300px] flex-col items-start justify-start gap-2 rounded p-4 shadow-lg shadow-slate-800">
       <div className="flex items-center gap-4 self-stretch">
         {(() => {
           switch (specieName) {
@@ -76,24 +76,24 @@ function PersonCard({
       <div className="w-full border-b border-l border-green-900 p-2 text-xs font-light text-gray-400">
         Body Type
       </div>
-      <div className="flex w-4/5 flex-col items-center justify-center gap-2">
-        <div className="flex flex-grow items-start text-xs font-light text-gray-400">
-          Height: <span className="ms-2 text-white">{height}</span>
+      <div className="flex w-full flex-col items-center gap-2">
+        <div className="flex w-full text-xs font-light text-gray-400">
+          <span className="basis-1/2 text-right">Height:</span> <span className="ms-2 text-white">{height}</span>
         </div>
-        <div className="flex flex-grow text-xs font-light text-gray-400">
-          Mass: <span className="ms-2 text-white">{mass}</span>
+        <div className="flex w-full text-xs font-light text-gray-400">
+          <span className="basis-1/2 text-right">Mass:</span> <span className="ms-2 text-white">{mass}</span>
         </div>
-        <div className="flex flex-grow text-xs font-light text-gray-400">
-          Hair color:{" "}
+        <div className="flex w-full text-xs font-light text-gray-400">
+          <span className="basis-1/2 text-right">Hair color:</span>{" "}
           <span className="ms-2 capitalize text-white">{hair_color}</span>
         </div>
 
-        <div className="flex flex-grow text-xs font-light text-gray-400">
-          Eye color:{" "}
+        <div className="flex w-full text-xs font-light text-gray-400">
+          <span className="basis-1/2 text-right">Eye color:</span>{" "}
           <span className="ms-2 capitalize text-white">{eye_color}</span>
         </div>
-        <div className="flex flex-grow text-xs font-light text-gray-400">
-          Skin color:{" "}
+        <div className="flex w-full text-xs font-light text-gray-400">
+          <span className="basis-1/2 text-right">Skin color:</span>{" "}
           <span className="ms-2 capitalize text-white">{skin_color}</span>
         </div>
       </div>
