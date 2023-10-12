@@ -1,6 +1,6 @@
 # Starwar Archive
 
-* To see demo visit [Starwar Archive](https://starwar-archive.vercel.app/)
+* To see the demo visit [Starwar Archive](https://starwar-archive.vercel.app/)
 
 ![Home](https://github.com/Leo5661/Starwar-Archive/blob/main/assets/home.jpg)
 
@@ -11,5 +11,6 @@ npm i
 npm run dev
 ```
 
-## To Deploy
-Push the changes on main branch.
+## To Contribute
+We welcome all contributions, whether it's code or non-code-related. Before starting, please read the [CONTRIBUTING.md]('CONTRIBUTING.md') file.
+
