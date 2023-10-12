@@ -12,5 +12,5 @@ npm run dev
 ```
 
 ## To Contribute
-We welcome all contributions, whether it's code or non-code-related. Before starting, please read the [CONTRIBUTING.md]('CONTRIBUTING.md') file.
+We welcome all contributions, whether it's code or non-code-related. Before starting, please read the [CONTRIBUTING.md](CONTRIBUTING.md) file.
 
