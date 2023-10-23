@@ -14,10 +14,7 @@ function Person() {
   const { id } = useParams();
   const person = useQuery(["person", id], fetchPerson);
   const homeworld = useQuery({
-    queryKey: [
-      "homeworld",
-      person?.data?.homeworld,
-    ],
+    queryKey: ["homeworld", person?.data?.homeworld],
     queryFn: fetchHomeworld,
     enabled: !!person.data,
   });
@@ -56,8 +53,12 @@ function Person() {
       : [],
   });
 
-  const isMultiQueriesCompleted = [starships, vehicles, films].every(
-    (queries) => queries.every((query) => query.isSuccess)
+  const isMultiQueriesSuccess = [starships, vehicles, films].every((queries) =>
+    queries.every((query) => query.isSuccess)
+  );
+
+  const isMultiQueriesError = [starships, vehicles, films].some((queries) =>
+    queries.some((query) => query.isError)
   );
 
   const noPersonFound = (
@@ -91,9 +92,9 @@ function Person() {
         <div className="flex h-screen w-full items-start justify-start gap-4 overflow-y-auto overflow-x-hidden">
           <div className="relative flex h-full w-10 items-center justify-around">
             <div className="absolute top-[150px] w-56 rotate-[-90deg] transform-gpu	overflow-hidden text-justify align-baseline text-sm font-normal tracking-wider text-green-500 antialiased">
-              {person.error
+              {person.error || isMultiQueriesError
                 ? `No person found`
-                : person.isLoading || !isMultiQueriesCompleted
+                : person.isLoading || !isMultiQueriesSuccess
                 ? "Loading..."
                 : `Results of ${person.data.name}`}
             </div>
@@ -101,10 +102,10 @@ function Person() {
           </div>
           <div className="flex w-full flex-col">
             <div className="flex flex-wrap items-start justify-center gap-10">
-              {person.error ? (
+              {person.error || isMultiQueriesError ? (
                 noPersonFound
               ) : person.isLoading ||
-                !isMultiQueriesCompleted ||
+                !isMultiQueriesSuccess ||
                 homeworld.isLoading ? (
                 loadingData
               ) : (
@@ -120,23 +121,11 @@ function Person() {
                   skin_color={person.data.skin_color}
                   species={person.data.species}
                   noOfStarship={person.data.starships.length}
-                  starships={
-                    isMultiQueriesCompleted
-                      ? starships.map((starship) => starship.data.name)
-                      : []
-                  }
+                  starships={starships.map((starship) => starship.data.name)}
                   noOfVehicles={person.data.vehicles.length}
-                  vehicles={
-                    isMultiQueriesCompleted
-                      ? vehicles.map((vehicle) => vehicle.data.name)
-                      : []
-                  }
+                  vehicles={vehicles.map((vehicle) => vehicle.data.name)}
                   noOfFilms={person.data.films.length}
-                  films={
-                    isMultiQueriesCompleted
-                      ? films.map((film) => film.data.title)
-                      : []
-                  }
+                  films={films.map((film) => film.data.title)}
                   homeworld={homeworld.isSuccess ? homeworld.data.name : ""}
                 />
               )}
