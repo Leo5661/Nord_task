@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import Nav from "../../components/Nav";
 import PersonCard from "../../components/PersonCard";
 import { useQuery } from "@tanstack/react-query";
@@ -110,8 +111,9 @@ function Home() {
                 ? loadingData
                 : pagedata.length == 0
                 ? noPeopleFound
-                : pagedata.map((item) => {
+                : pagedata.map((item, index) => {
                     return (
+                      <Link to={`person/${item.url.split("/").slice(-2, -1)[0]}`}>
                       <PersonCard
                         key={item.name}
                         name={item.name}
@@ -126,6 +128,7 @@ function Home() {
                         noOfStarship={item.starships.length}
                         noOfVehicles={item.vehicles.length}
                       />
+                      </Link>
                     );
                   })}
             </div>
