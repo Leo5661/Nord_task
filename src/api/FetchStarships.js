@@ -1,7 +1,9 @@
-export const fetchStarships = async ({ queryKey }) => {
-  const url = queryKey[1];
+import { BASE_URL } from "../constants/ApiConstants";
 
-  const res = await fetch(`${url}`);
+export const fetchStarships = async ({ queryKey }) => {
+  const id = queryKey[1];
+
+  const res = await fetch(`${BASE_URL}starships/${id}`);
 
   if (!res.ok) {
     throw new Error("somthing went wrong while fetching starships");
