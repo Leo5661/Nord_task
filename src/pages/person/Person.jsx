@@ -23,7 +23,7 @@ function Person() {
     queries: person.isSuccess
       ? person.data.starships.map((starshipUrl) => {
           return {
-            queryKey: ["starship", starshipUrl],
+            queryKey: ["starship", starshipUrl.split("/").slice(-2, -1)[0]],
             queryFn: fetchStarships,
             enabled: !!person.data,
           };
@@ -121,7 +121,10 @@ function Person() {
                   skin_color={person.data.skin_color}
                   species={person.data.species}
                   noOfStarship={person.data.starships.length}
-                  starships={starships.map((starship) => starship.data.name)}
+                  starships={starships.map((starship) => ({
+                    name: starship.data.name,
+                    url: starship.data.url,
+                  }))}
                   noOfVehicles={person.data.vehicles.length}
                   vehicles={vehicles.map((vehicle) => vehicle.data.name)}
                   noOfFilms={person.data.films.length}

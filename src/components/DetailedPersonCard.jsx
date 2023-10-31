@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useQuery } from "@tanstack/react-query";
 import { fetchSpecie } from "../api/FetchSpecies";
 import { faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 function DetailedPersonCard({
   name,
@@ -125,7 +126,9 @@ function DetailedPersonCard({
           </div>
           <div className="flex flex-col justify-between text-lg">
             {starships.map((starship) => (
-              <div className="flex text-lg text-white" key={starship}>{starship}</div>
+              <Link to={`/starship/${starship.url.split("/").slice(-2, -1)[0]}`}>
+              <div className="flex text-lg text-white hover:underline" key={starship.name}>{starship.name}</div>
+              </Link>
             ))}
           </div>
         </div>
